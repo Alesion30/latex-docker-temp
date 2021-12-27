@@ -1,53 +1,140 @@
-\documentclass[uplatex]{jsarticle}
-\title{サンプルタイトル}
-\author{サンプル作者}
-\date{\today}
+%#! platex main.tex
+\documentclass[a4paper,12pt]{jreport}
+\usepackage{jgraduate} % 卒論・修論用スタイル
 
-\usepackage{comment}
+%% 索引作成
+%\usepackage{makeidx}
+% dvipdfmxを使用しない場合はオプションを変更すること
 \usepackage[dvipdfmx]{graphicx}
-\usepackage[top=30truemm,bottom=30truemm,left=20truemm,right=20truemm]{geometry}
-\usepackage{here}
+% 数字付きリストでラベルを使う
+\usepackage{enumerate}
+% 数学記号など
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+% URLをいい感じにする
 \usepackage{url}
-\usepackage{listings}
+\usepackage{cite}
 
-\lstset{
-  basicstyle={\ttfamily},
-  identifierstyle={\small},
-  commentstyle={\smallitshape},
-  keywordstyle={\small\bfseries},
-  ndkeywordstyle={\small},
-  stringstyle={\small\ttfamily},
-  frame=shadowbox,
-  breaklines=true,
-  columns=[l]{fullflexible},
-  numbers=left,
-  xrightmargin=0zw,
-  xleftmargin=3zw,
-  numberstyle={\scriptsize},
-  stepnumber=1,
-  numbersep=1zw,
-  keepspaces=true,
-  lineskip=-0.5ex
-}
+%------------------------------
+% 余白設定
+%------------------------------
+\usepackage[left=27mm,right=27mm,top=45mm,bottom=45mm,%
+ headheight=5mm,headsep=10mm,%
+ footskip=12mm%
+ ]{geometry}
 
+%------------------------------
+% hyperref
+%  日本語の文字コード設定が分からない人はコメントアウトすること．
+%------------------------------
+% PDF化したときにしおりが作成され，図表へのジャンプも可能となる．
+\usepackage{atbegshi}
+% Mac/Linuxの場合
+%   ※Ubuntuの場合はEUC-UCS2を自分で入れないとダメ．
+\AtBeginShipoutFirst{\special{pdf:tounicode EUC-UCS2}}
+%% Winの場合
+%\AtBeginShipoutFirst{\special{pdf:tounicode 90ms-RKSJ-UCS2}}
+% 以下は共通
+\usepackage[dvipdfm,a4paper,bookmarks,bookmarksnumbered,%
+ hidelinks,% 目次やリンクテキストの周囲の赤枠を消す
+ bookmarksopen=false,pdfstartview={FitH},%
+ bookmarkstype=toc,%
+ setpagesize=false,%
+ pdfauthor={九大 太郎},%
+% setpagesize=false,% PDFのサイズがおかしい場合はこれを有効化
+ pdftitle={卒論テンプレート}]{hyperref}
+
+%----------------------------------------------------------------------
+% 設定
+%----------------------------------------------------------------------
+% 目次の深さはsubsubsectionまで
+\setcounter{tocdepth}{3}
+
+% 基準となる図の幅
+\newlength\figurewidth
+\setlength{\figurewidth}{0.8\textwidth}
+% 縦に並べた図の間の基準となるスペース
+\newlength\figuresep
+\setlength{\figuresep}{0.8\floatsep}
+
+%----------------------------------------------------------------------
+% 文書基本情報
+%----------------------------------------------------------------------
+% タイトル
+\title{卒論・修論\\テンプレート}
+
+% 著者
+\author{九大 太郎}
+
+% 所属
+% 学部
+\university{九州大学}
+\department{工学部}
+\major{電気情報工学科}
+%% 修士・博士
+%\university{九州大学大学院}
+%\department{システム情報科学府}
+%\course{修士課程}
+%\major{情報知能工学専攻}
+%\submajor{社会情報システム工学コース}
+
+% 提出日（月までを書く）
+\date{令和99年2月}
+
+%======================================================================
+% テキスト開始
+%======================================================================
 \begin{document}
+% 表紙
 \maketitle
-\newpage
+% 表紙はページ番号を出力しない
+\thispagestyle{empty}
 
-\section{はじめに}
+%----------------------------------------------------------------------
+% 概要
+%----------------------------------------------------------------------
+\begin{abstract}
+ これは修論・卒論のテンプレートである．
+\end{abstract}
 
-\begin{comment}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=17cm]{sample.png}
-    \caption{サンプル}
-    \label{sample}    % \ref{sample}で参照
-\end{figure}
+%----------------------------------------------------------------------
+% 目次のページ番号は1から
+\setcounter{page}{0}
+% 目次
+\tableofcontents
 
-\begin{thebibliography}{99}
-    \bibitem サイト名 \url{http} (閲覧日:)
-    \bibitem 著者:本名前 出版社 (出版年)
-\end{thebibliography}
-\end{comment}
+% 本文のページ番号はアラビア数字
+\pagenumbering{arabic}
+
+%======================================================================
+% 本文ここから
+%======================================================================
+
+% 章ごとのファイルを読み込む
+\section{Overleafでのタイプセットの仕方}
+
+\begin{enumerate}
+ \item New Project $\rightarrow$ Upload Projectでzipファイルをアップロードする．
+ \item Menu $\rightarrow$ Settings $\rightarrow$ CompilerでLaTeXを選択する．
+ \item Recompileする．
+\end{enumerate}
+
+% \include{intro}
+% \include{conclu}
+
+% 謝辞
+% \include{ack}
+
+%----------------------------------------------------------------------
+% 参考文献
+%----------------------------------------------------------------------
+% \bibliographystyle{sieicej}
+% \bibliography{bib/IEEEfull,bib/mystr_IEEEfull,bib/my,bib/pub}
+
+%----------------------------------------------------------------------
+% 発表文献
+%----------------------------------------------------------------------
+\include{public}
 
 \end{document}
